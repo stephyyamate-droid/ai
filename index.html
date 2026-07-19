@@ -2,12 +2,14 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Veltrix.ai - AI Website Builder</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+<title>V Veltrix.ai</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 
 
@@ -16,81 +18,106 @@
 
 <header>
 
-    <div class="logo">
-        <span>V</span> Veltrix.ai
-    </div>
 
+<div class="logo">
 
-    <div class="actions">
-
-        <button>
-            Save
-        </button>
-
-        <button>
-            Deploy
-        </button>
-
-    </div>
-
-</header>
-
-
-
-<main class="workspace">
-
-
-
-<!-- AI CHAT -->
-
-<section class="chat-panel">
-
-
-<h2>
-🤖 Veltrix AI
-</h2>
-
-
-<div class="messages" id="messages">
-
-
-<div class="ai-message">
-
-Hello! I can build websites, apps, dashboards, and scripts.
+<span>V</span> Veltrix.ai
 
 </div>
 
 
-</div>
+<div class="actions">
+
+<button id="download">
+Download ZIP
+</button>
 
 
-
-<div class="prompt-box">
-
-
-<input 
-id="prompt"
-placeholder="Create a modern gaming website..."
->
-
-
-<button id="generate">
-Generate
+<button class="deploy">
+Deploy
 </button>
 
 
 </div>
 
 
-</section>
+</header>
 
 
 
 
 
-<!-- CODE AREA -->
+<div class="app">
 
-<section class="code-panel">
+
+
+
+
+<!-- CHAT -->
+
+
+<aside class="chat">
+
+
+<h2>
+<span class="v-logo">V</span> Veltrix.ai
+</h2>
+
+
+
+<div id="messages">
+
+
+<div class="message ai">
+
+Welcome to V Veltrix.ai.<br><br>
+
+Describe the website you want me to build.
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="prompt-box">
+
+
+<input
+
+id="prompt"
+
+placeholder="Create a modern AI dashboard..."
+
+>
+
+
+<button id="generate">
+
+➤
+
+</button>
+
+
+</div>
+
+
+
+</aside>
+
+
+
+
+
+
+
+<!-- EDITOR -->
+
+
+<section class="editor-panel">
 
 
 <div class="files">
@@ -101,46 +128,56 @@ Project
 </h3>
 
 
-<div class="file active">
+
+<button class="file active" data-file="index.html">
+
 📄 index.html
-</div>
+
+</button>
 
 
-<div class="file">
+
+<button class="file" data-file="style.css">
+
 🎨 style.css
-</div>
+
+</button>
 
 
-<div class="file">
+
+
+<button class="file" data-file="app.js">
+
 ⚙ app.js
+
+</button>
+
+
+
 </div>
 
 
-</div>
 
 
 
+<div class="code">
 
 
-<div class="editor">
-
-
-<div class="editor-top">
-
+<h3>
 Code Editor
+</h3>
 
-</div>
 
 
 <pre id="code">
 
-// AI generated code appears here
+// V Veltrix.ai generated code
 
 </pre>
 
 
-</div>
 
+</div>
 
 
 </section>
@@ -149,15 +186,20 @@ Code Editor
 
 
 
+
+
+
+
 <!-- PREVIEW -->
 
 
-<section class="preview-panel">
+<section class="preview">
 
 
-<h2>
+<h3>
 Live Preview
-</h2>
+</h3>
+
 
 
 <div class="browser">
@@ -170,25 +212,29 @@ Live Preview
 </div>
 
 
-
-<iframe 
-id="preview">
-</iframe>
-
+<iframe id="preview"></iframe>
 
 
 </div>
+
 
 
 </section>
 
 
 
-</main>
 
 
+
+</div>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 <script src="app.js"></script>
+
 
 
 </body>
