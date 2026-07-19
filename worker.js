@@ -1,226 +1,178 @@
 export default {
+  async fetch(request, env) {
 
-async fetch(request, env) {
-
-
-const cors = {
-
-"Access-Control-Allow-Origin": "*",
-
-"Access-Control-Allow-Headers":
-"Content-Type"
-
-};
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "POST, OPTIONS"
+    };
 
 
-
-// Allow browser checks
-
-if(request.method === "OPTIONS"){
-
-return new Response(null,{
-headers:cors
-});
-
-}
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        headers: corsHeaders
+      });
+    }
 
 
+    if (request.method !== "POST") {
+
+      return new Response(
+        "Veltrix AI API is online!",
+        {
+          headers: corsHeaders
+        }
+      );
+
+    }
 
 
-if(request.method !== "POST"){
+    try {
+
+      const body = await request.json();
 
 
-return new Response(
-"V Veltrix.ai API Online",
-{
-headers:cors
-}
-);
+      if (!env.OPENAI_API_KEY) {
 
+        return new Response(
+          JSON.stringify({
+            error: "OPENAI_API_KEY missing"
+          }),
+          {
+            status:500,
+            headers:{
+              "Content-Type":"application/json",
+              ...corsHeaders
+            }
+          }
+        );
 
-}
-
-
-
-
-try {
-
-
-
-const body =
-await request.json();
-
+      }
 
 
 
+      const openaiResponse = await fetch(
+        "https://api.openai.com/v1/responses",
+        {
 
-const ai =
-await fetch(
-"https://api.openai.com/v1/responses",
-{
+          method:"POST",
 
-
-method:"POST",
-
-
-headers:{
-
-
-"Content-Type":
-"application/json",
+          headers:{
+            "Content-Type":"application/json",
+            "Authorization":
+            `Bearer ${env.OPENAI_API_KEY}`
+          },
 
 
-"Authorization":
-`Bearer ${env.OPENAI_API_KEY}`
+          body:JSON.stringify({
+
+            model:"gpt-4.1-mini",
 
 
-},
-
-
-
-body:JSON.stringify({
-
-
-
-model:
-"gpt-4.1-mini",
-
-
-
-input:
+            input:
 `
+You are V Veltrix.ai.
 
-You are V Veltrix.ai,
-an advanced AI website builder.
+Create a complete website.
 
-
-Create a complete website from this idea:
-
+User request:
 
 ${body.prompt}
 
 
-
-Return ONLY valid JSON.
-
-No markdown.
-
-No explanations.
-
-
+Return ONLY JSON.
 
 Format:
 
-
-
 {
-
-"files":{
-
-"index.html":"",
-
-"style.css":"",
-
-"app.js":""
-
+ "files":{
+   "index.html":"HTML CODE",
+   "style.css":"CSS CODE",
+   "app.js":"JAVASCRIPT CODE"
+ }
 }
 
-}
-
-
-
-Make the website:
-
-- modern
-
-- responsive
-
-- animated
-
-- professional
-
-- production quality
-
-
-
+No markdown.
+No explanations.
 `
 
-})
+          })
 
-}
-
-);
-
+        }
+      );
 
 
 
-
-
-const result =
-await ai.json();
-
+      const data =
+      await openaiResponse.json();
 
 
 
-
-return new Response(
-
-JSON.stringify(result),
-
-{
-
-headers:{
-
-"Content-Type":
-"application/json",
-
-...cors
-
-}
-
-}
-
-);
+      console.log(
+        "OpenAI:",
+        data
+      );
 
 
 
+      if(data.error){
 
-}
+        return new Response(
+          JSON.stringify({
+            error:data.error.message
+          }),
+          {
+            status:500,
+            headers:{
+              "Content-Type":"application/json",
+              ...corsHeaders
+            }
+          }
+        );
 
-catch(error){
-
-
-return new Response(
-
-JSON.stringify({
-
-error:
-error.message
-
-}),
-
-{
-
-status:500,
-
-headers:{
-
-"Content-Type":
-"application/json",
-
-...cors
-
-}
-
-}
-
-);
-
-
-}
+      }
 
 
 
-}
+      return new Response(
+        JSON.stringify(data),
+        {
+          headers:{
+            "Content-Type":"application/json",
+            ...corsHeaders
+          }
+        }
+      );
 
+
+
+    }
+
+
+    catch(error){
+
+
+      return new Response(
+
+        JSON.stringify({
+          error:error.message
+        }),
+
+        {
+
+          status:500,
+
+          headers:{
+            "Content-Type":"application/json",
+            ...corsHeaders
+          }
+
+        }
+
+      );
+
+
+    }
+
+  }
 };
